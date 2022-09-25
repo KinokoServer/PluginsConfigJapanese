@@ -1,0 +1,321 @@
+# BetterReports
+# Discord Webhook のカスタマイズによるシンプルなレポート プラグイン!
+#
+# Copyright (c) 2022 AusTech Development
+#
+# Github プロフィール: https://github.com/AusTechDev/
+# Spigot プロフィール: https://www.spigotmc.org/members/austech.919057/
+# 不和サーバー: https://austech.dev/to/support
+
+# -----------------------------------------------------------------------------------
+# プレースホルダー
+#
+# すべてのメッセージはプレースホルダーをサポートする必要があります。
+# この設定ファイルの各メッセージの上に、利用可能なメッセージが表示されます
+# このプラグインが提供するプレースホルダー。
+#
+# プラグインがインストールされている場合、すべてのメッセージは PlaceholderAPI の使用もサポートします。
+#
+# メッセージの上のコメントに「PlaceholderAPI -Single」とある場合、それは
+# メッセージは、1 人のユーザーに対して PlaceholderAPI の使用をサポートします。例えば、
+# %player_name% は、コマンド送信者の名前を返します (プレイヤーの場合)。
+#
+# メッセージの上のコメントに「PlaceholderAPI -Multiple」とある場合、それは
+# メッセージは、複数のユーザーに対して PlaceholderAPI の使用をサポートします。例えば、
+# %creator_player_name% はコマンド送信者の名前を返しますが、
+# %target_player_name% はターゲットの名前を返します。
+# これの例は次のとおりです。
+# "%target_player_name% は、%target_player_world% で %creator_player_name% によって報告されました".
+#
+# %creator_ と %target_ を使用して、マルチ ターゲティングでコマンド送信者とターゲットをそれぞれ参照します
+# プレースホルダー。
+#
+# PlaceholderAPI のプレースホルダーは次の場所にあります。
+# https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders
+# -----------------------------------------------------------------------------------
+
+reports:
+  # -----------------------------------------------------------------------------------
+  # This section is for PLAYER reports.
+  # -----------------------------------------------------------------------------------
+  player:
+    enabled: true
+
+    # Allow the reporting of offline players or players that have never joined the server before.
+    # This is recommended to keep disabled, as people can report anyone, e.g Notch, even if they have never played before.
+    report-offline-players: false
+
+    cooldown:
+      enabled: true
+      time: 60
+
+    discord:
+      enabled: true
+      webhook: "https://discord.com/api/webhooks/1022494500561637488/M-clZnaLq3Rv7r04S_t_aDkNzunYosDnMPQ9svJn3J4gS3TWfTPk_3yzxT4z3nmEnSGT"
+
+      # Every field in this embed section supports PlaceholderAPI - Multiple.
+      # For example, %creator_player_name% will return the command sender's name, whilst
+      # %target_player_name% will return the target's name.
+      #
+      # Every field in here has BetterReports Placeholders:
+      # - {creator} (The player's name, it is better to use PAPI for this instead.)
+      # - {target} (The target's name, it is better to use PAPI for this instead.)
+      # - {report} (The reason for the report)
+      # - {global_counter} (See counter section)
+      # - {player_counter} (See counter section)
+      embed:
+        author:
+          name: "ReportTeam"
+          url: ""
+          icon-url: ""
+        body:
+          title: "新しい報告が届きました。"
+          title-url: ""
+          description: "このプレイヤーが報告しました。"
+          color: "#FF7540" # This value MUST be a hex colour code.
+
+        # -----------------------------------------------------------------------------------
+        # Fields - Format
+        # Please use the following format when creating new fields.
+        #
+        # - name: ""
+        #   value: ""
+        #   inline: false
+        #
+        # Due to Discord limitations, you can only have up to 25 fields in an embed.
+        # If you specify more than 25, the first 25 will be used.
+        # -----------------------------------------------------------------------------------
+        fields:
+          - name: "報告者"
+            value: "`{creator}`"
+            inline: false
+
+          - name: "犯人(報告したい人)"
+            value: "`{target}`"
+            inline: false
+
+          - name: "理由"
+            value: "{reason}"
+            inline: false
+
+        images:
+          image: ""
+          thumbnail: "https://minotar.net/helm/{creator}/100.png"
+
+        footer:
+          timestamp: false # If this is true, the current time will be used.
+          text: "AusTech - BetterReports"
+          icon-url: "https://cdn.discordapp.com/icons/749536377020088361/b8d4bada3908ccb2bac76773489ee0cf.png"
+
+      # レポートが作成されたときにdiscordの役割またはユーザーにpingを送信したい場合は、これを使用してください。ユーザー ID またはロール ID を取得するには、次のガイドに従ってください: https://ozonprice.com/blog/discord-get-role-id/
+      # ロールの場合、<@&ROLE_ID> の形式を使用します
+      # ユーザーの場合、<@USER_ID> の形式を使用します
+      ping:
+        enabled: false
+        value: "<@&753093643044257895>"
+
+    messages:
+      # PlaceholderAPI をサポート -複数
+      # 利用可能な BetterReports プレースホルダー:
+      # -{player} (プレイヤーの名前。代わりに PAPI を使用することをお勧めします。)
+      # -{target} (ターゲットの名前。代わりに PAPI を使用することをお勧めします。)
+      # -{report} (レポートの理由)
+      # -{global_counter} (カウンターのセクションを参照)
+      # -{player_counter} (カウンターセクションを参照)
+      # PLAYER レポートがファイルに正常に書き込まれた場合は、チャットでこのメッセージをスタッフに通知します。
+      new-report: |-
+        &8&l&m-----------------------------
+        &c&l      新しいプレイヤーからの報告
+        &c&l       報告者: &7{player}
+        &c&l       報告したい人: &7{target}
+        &8        詳しくはDiscordをチェック！
+        &8&l&m-----------------------------
+
+      # PlaceholderAPI をサポート -複数
+      # 利用可能な BetterReports プレースホルダー:
+      # -{player} (プレイヤーの名前。代わりに PAPI を使用することをお勧めします。)
+      # -{target} (ターゲットの名前。代わりに PAPI を使用することをお勧めします。)
+      # -{report} (レポートの理由)
+      # -{global_counter} (カウンターのセクションを参照)
+      # -{player_counter} (カウンターセクションを参照)
+      # プレイヤー レポートが正常に送信された場合、このメッセージがプレイヤーへのチャットに表示されます。
+      success: |-
+        &8&l&m---------------------------------
+        &a&lありがとうございます。 &aレポートが送信されました。
+        &a    あなたのレポートがサーバーに役立ちます！
+        &8&l&m---------------------------------
+
+  # -----------------------------------------------------------------------------------
+  # このセクションはバグ報告用です。
+  # -----------------------------------------------------------------------------------
+  bug:
+    enabled: true
+
+    cooldown:
+      enabled: true
+      time: 60
+
+    discord:
+      enabled: true
+      webhook: "https://discord.com/api/webhooks/1022494500561637488/M-clZnaLq3Rv7r04S_t_aDkNzunYosDnMPQ9svJn3J4gS3TWfTPk_3yzxT4z3nmEnSGT"
+
+      # この埋め込みセクションのすべてのフィールドは、PlaceholderAPI -Single をサポートしています。
+      #
+      # ここのすべてのフィールドには、BetterReports プレースホルダーがあります。
+      # -{creator} (プレイヤーの名前。代わりに PAPI を使用することをお勧めします。)
+      # -{report} (レポートの理由)
+      # -{global_counter} (カウンターのセクションを参照)
+      # -{bug_counter} (カウンターのセクションを参照)
+      embed:
+        author:
+          name: "BugReportTeam"
+          url: ""
+          icon-url: ""
+        body:
+          title: "新しいバグ報告が届きました。"
+          title-url: ""
+          description: "バグが報告されています。"
+          color: "#4FFFFF" # この値は 16進数カラー コードでなければなりません。
+
+        # -----------------------------------------------------------------------------------
+        # フィールド -フォーマット
+        # 新しいフィールドを作成する場合は、次の形式を使用してください。
+        #
+        # - 名前： ""
+        #   価値： ""
+        # インライン: false
+        #
+        # Discord の制限により、埋め込みには最大 25 個のフィールドしか持てません。
+        # 25 以上を指定すると、最初の 25 が使用されます。
+        # -----------------------------------------------------------------------------------
+        fields:
+          - name: "報告者"
+            value: "`{creator}`"
+            inline: false
+
+          - name: "理由"
+            value: "{reason}"
+            inline: false
+
+        images:
+          image: ""
+          thumbnail: "https://minotar.net/helm/{creator}/100.png"
+
+        footer:
+          timestamp: false # これが true の場合、現在の時刻が使用されます。
+          text: "AusTech -BetterReports"
+          icon-url: "https://cdn.discordapp.com/icons/749536377020088361/b8d4bada3908ccb2bac76773489ee0cf.png"
+
+      # レポートが作成されたときにdiscordの役割またはユーザーにpingを送信したい場合は、これを使用してください。ユーザー ID またはロール ID を取得するには、次のガイドに従ってください: https://ozonprice.com/blog/discord-get-role-id/
+      # ロールの場合、<@&ROLE_ID> の形式を使用します
+      # ユーザーの場合、<@USER_ID> の形式を使用します
+      ping:
+        enabled: false
+        value: "<@&753093643044257895>"
+
+    messages:
+      # PlaceholderAPI をサポート -シングル
+      # 利用可能な BetterReports プレースホルダー:
+      # -{player} (プレイヤーの名前。代わりに PAPI を使用することをお勧めします。)
+      # -{report} (レポートの理由)
+      # -{global_counter} (カウンターのセクションを参照)
+      # -{bug_counter} (カウンターのセクションを参照)
+      # BUG レポートがファイルに正常に書き込まれた場合は、チャットでこのメッセージをスタッフに通知します。
+      new-report: |-
+        &8&l&m---------------------------
+        &c&l        新しいバグ報告
+        &c&l      報告者: &7{player}
+        &8     詳しくはDiscordをチェック！
+        &8&l&m---------------------------
+
+      # PlaceholderAPI をサポート -シングル
+      # 利用可能な BetterReports プレースホルダー:
+      # -{player} (プレイヤーの名前。代わりに PAPI を使用することをお勧めします。)
+      # -{report} (レポートの理由)
+      # -{global_counter} (カウンターのセクションを参照)
+      # -{bug_counter} (カウンターのセクションを参照)
+      # バグレポートが正常に送信された場合、このメッセージがプレイヤーへのチャットに表示されます。
+      success: |-
+        &8&l&m---------------------------------
+        &a&lありがとうございます。&aレポートが送信されました。
+        &a    あなたのレポートがサーバーに役立ちます！
+        &8&l&m---------------------------------
+
+# このセクションのすべてのフィールドは、PlaceholderAPI -Single をサポートしています。
+language:
+  no-permission-message: "&cこのコマンドを実行する権限がありません!"
+  error-sending-message: "&cバグ レポートを discord に送信中にエラーが発生しました。管理者に連絡してください。"
+  player-only-message: "そのコマンドを実行できるのはプレイヤーだけです!"
+  no-reason-message: "&c報告の理由を指定してください!"
+  no-bug-provided-message: "&cレポートしたいバグを指定してください!"
+  report-self-message: "&c自分自身を報告することはできません!"
+  player-not-found: "&cPlayer が見つかりません。"
+  cannot-report-message: "&cYou cannot report that player!"
+  unknown-command: "&cそんなコマンドはありません。"
+  config-reloaded: "&aConfig がリロードされました!"
+  cooldown-message: "&c{type} を再度報告するには、{time} 待つ必要があります。"
+
+  # タイトル
+  bug-question:
+    enabled: true
+    message: "&cどの &7 バグを報告していますか?"
+    title: "&c何のバグですか？"
+    subtitle: "バグを報告していますか?"
+
+  player-search-question:
+    enabled: true
+    message: "&c&7検索する名前を入力してください。"
+    title: "&c入ってください"
+    subtitle: "検索する名前"
+
+  # これは PlaceholderAPI -複数をサポートします。
+  custom-reason-question:
+    enabled: true
+    message: "&c&7報告する理由 {target}?"
+    title: "&cどうして"
+    subtitle: "報告していますか {target}?"
+
+  bug-reports-disabled: "&cバグ レポートは現在無効になっています。"
+  player-reports-disabled: "&cプレーヤー レポートは現在無効になっています。"
+
+  report-cancelled: "&cレポートはキャンセルされました。"
+
+  # ベース権限ノード「betterreports.use」を持つプレイヤーがベースコマンド /report を入力したときに表示されるメッセージ。
+  player-help-message: |-
+    &8&l&m-------------------------------
+    &c&l&o     Server&4&l&oReports
+    &8    バグとプレイヤーを報告可能です。
+    &7/report <報告をしたいプレイヤー> <理由> &c プレイヤー報告
+    &7/reportbug <バグ内容> &c バグ報告
+    &8&l&m-------------------------------
+
+  # 権限ノード「betterreports.admin」を持つプレイヤーが基本コマンド: /report.
+  admin-help-message: |-
+    &8&l&m----------------------------------------------
+    &c&l&o Better&4&l&oレポート
+    &8 バグとプレイヤーの報告
+    &7/report <player> <reason> &c プレイヤーを報告
+    &7/reportbug <バグ> &c バグを報告
+    &7/br reload &c 構成をリロードします
+    &8&l&m----------------------------------------------
+
+# これを有効にすると、レポート カウンターが有効になります。構成全体にあるプレースホルダーを使用できます。
+# ファイル「counter.db」に格納されます。
+counter: false
+
+checking:
+  # 更新をチェックするかどうか
+  check-for-updates: true
+
+  # これにより、利用可能な新しい更新がある場合、参加時に「betterreports.admin」を持つユーザーに通知されます。
+  notify-for-updates: true
+
+  # これにより、使用しているプラ​​グインのバージョンに重大な問題があるかどうかがチェックされます。
+  # ある場合は、あなたを保護するために、あなたに通知し、場合によってはプラグインをシャットダウンします。
+  # これが何を意味するのかわからない場合は、有効にしておいてください。
+  # すべての人の安全とセキュリティのために、これを有効にしておくことを強くお勧めします。
+  check-for-security: true
+
+# この番号は変更しないでください。
+# 設定が壊れる可能性があります。
+config-version: 3
