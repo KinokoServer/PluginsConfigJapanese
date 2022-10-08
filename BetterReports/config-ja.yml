@@ -51,7 +51,7 @@ reports:
 
     discord:
       enabled: true
-      webhook: "https://discord.com/api/webhooks/1022494500561637488/M-clZnaLq3Rv7r04S_t_aDkNzunYosDnMPQ9svJn3J4gS3TWfTPk_3yzxT4z3nmEnSGT"
+      webhook: "WebHooks"
 
       # Every field in this embed section supports PlaceholderAPI - Multiple.
       # For example, %creator_player_name% will return the command sender's name, whilst
@@ -157,7 +157,7 @@ reports:
 
     discord:
       enabled: true
-      webhook: "https://discord.com/api/webhooks/1022494500561637488/M-clZnaLq3Rv7r04S_t_aDkNzunYosDnMPQ9svJn3J4gS3TWfTPk_3yzxT4z3nmEnSGT"
+      webhook: "WebHooks"
 
       # この埋め込みセクションのすべてのフィールドは、PlaceholderAPI -Single をサポートしています。
       #
