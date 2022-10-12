@@ -1,0 +1,138 @@
+# AdvancedBan v2 - Coded by Leoko
+# For each setting, there is a small description.
+# Please read each description carefully before changing anything.
+# For more information visit: https://www.spigotmc.org/resources/advancedban.8695/
+# Do you want your own Plugin or Website? Check out our Dev-Page: http://dev.skamps.eu
+
+# falseに設定すると、すべての禁止がhsqldb-databaseでローカルに保存されます
+UseMySQL: false
+
+MySQL:
+  IP: localhost
+  DB-Name: database-name
+  Username: admin
+  Password: superSecret
+  Port: #3306
+  Properties: 'verifyServerCertificate=false&useSSL=false&useUnicode=true&characterEncoding=utf8'
+
+# 短いメッセージだけをコンソールに表示させたい場合はfalseに設定します。
+# 起動時やシャットダウン時に
+DetailedEnableMessage: true
+DetailedDisableMessage: true
+
+# データベースにエラーが発生した場合に, サーバへの接続を禁止するかどうか.
+# データベースにエラーが発生した場合に、サーバへの接続を拒否するかどうか。(例: MySQLサーバーがダウンした場合)
+LockdownOnError: true
+
+# これは、何も与えられていない場合に表示されるデフォルトの理由です
+DefaultReason: "none"
+
+# サーバーがユーザーと異なる時刻を採用している場合は、これを変更します。
+# e.g: ServerTime: 16:43 | Your Time: 13:43 | TimeDiff は -3 に設定する必要があります.
+# サーバーの時刻は, /systemPrefsで確認することができます.
+TimeDiff: 0
+
+# このコマンドはミュートされたプレイヤーには無効です。
+# プレイヤーは例えば "/minecraft:me" といったコマンドを迂回することができなくなります。
+MuteCommands:
+- 'me'
+- 'say'
+- 'action'
+- 'eaction'
+- 'describe'
+- 'edescribe'
+- 'eme'
+- 'w'
+- 'm'
+- 'pm'
+- 'whisper'
+- 'ewhisper'
+- 'emsg'
+- 'msg'
+- 'etell'
+- 'tell'
+- 'er'
+- 'r'
+- 'reply'
+- 'ereply'
+- 'ac'
+- 'eac'
+- 'amsg'
+- 'eamsg'
+- 'ehelpop'
+- 'p msg'
+
+# これらのプレイヤーは、いかなる方法でも罰を受けることはできません。
+# これはプレイヤーがオフラインの場合にも機能する
+# オフラインのプレイヤーにも免除されたパーミッションが機能するよう、Vaultを使用すること
+ExemptPlayers:
+- 'Leoko'
+- 'md5'
+- 'dutchy1001'
+- 'ItzSomebody'
+
+# 変数 %DATE% で使用される日付の書式
+DateFormat: "dd.MM.yyyy-HH:mm"
+
+# これはバンジーコードサーバや、*-Permsをサポートしないパーミッションシステムを 持つサーバで有用です。
+# これを有効にすると, ab.*の代わりにab.all, ab.ban.*の代わりにab.ban.allが使えるようになります.
+# これはネガティブなパーミッションでは動作しません! 例えば -ab.all はそのユーザに対する全てのコマンドをブロックしません.
+EnableAllPermissionNodes: false
+
+# もし外部のREST-APIを利用する場合は、JSONで応答する必要があります。
+# 与えられたAPIは、NAME -> UUIDの場合のみ使用されます。
+# UUID -> NAME については、公式の MojangAPI か InternFetcher のどちらかを使用します。
+# インターンフェッチャーを使えるかどうか確認するには、/systemPerfs を実行して、あなたの uuid を比較してください。
+# オンラインの http://NamesMC.com で見ることができるものと比較してください。
+# もし同じようなものであれば、InternFetcherを使用することをお勧めします。
+UUID-Fetcher:
+  # dynamicがtrueに設定されると、'enabled' と 'intern' の設定が上書きされます。
+  # そして, あなたのサーバに最適なuuidフェッチャーの設定を自動的に検出します.
+  # 我々の推奨: 特に問題がないのであれば, dynamicをfalseに設定しないこと.
+  Dynamic: true
+  Enabled: true
+  Intern: false
+  REST-API:
+    URL: "https://api.mojang.com/users/profiles/minecraft/%NAME%?at=%TIMESTAMP%"
+    Key: "id"
+  BackUp-API:
+    URL: "https://us.mc-api.net/v3/uuid/%NAME%"
+    Key: "uuid"
+
+# これらは、ウォーンスに対して実行されるコマンドです。
+# もし番号を飛ばしたら、その前のコマンドが実行されます。
+# 'broadcast' や 'clear %PLAYER%' のようなAdvancedBan以外のコマンドも利用可能です。
+# Variables: %PLAYER%, %REASON%, %COUNT%
+WarnActions:
+  3: "kick %PLAYER% &c&o3回目の警告を受け取りました！"
+  4: "tempban %PLAYER% 30m &c&o4回目の警告を受け取りました！"
+  5: "tempban %PLAYER% 5h &c&o5回目の警告を受け取りました！"
+  6: "tempban %PLAYER% 7d &c&o6回目の警告を受け取りました！"
+  7: "tempban %PLAYER% 1mo &c&oあなたは %COUNT%目の警告を受け取りました！"
+  10: "ban %PLAYER% &c&o10回目の警告を受け取りました！"
+
+# Here you can create permission-nodes for max-punishment-duration.
+# The permission "ab.tempban.dur.1" would allow the player to ban max. for 600sec = 10min
+# The permission "ab.tempwarn.dur.2" would allow the player to warn max. for 3600sec = 1h
+# You can only create up to 10 perms. The perms can be overridden with "ab.COMMAND.dur.max"
+TempPerms:
+  1: 600
+  2: 3600
+  3: 43200
+
+# これを有効にすると、エラーなどの詳細な情報がコンソールに表示されます。
+# プラグインが正しく動作している場合は、有効化することは推奨されません。
+# バグを発見するために設計されているため、有効化することは推奨されません。
+Debug: false
+
+# プラグインのログをplugins/AdvancedBan/logsフォルダに保存しておく日数を指定します.
+# デフォルトでは10日間に設定されています.
+Log Purge Days: 10
+
+# 全てのメッセージに含まれるプラグインの接頭辞を削除します.
+Disable Prefix: false
+
+# より親切な方法でコマンドを登録する
+# デフォルトではオフになっているため、AdvancedBanは他のプラグインからの/banを上書きすることができる
+# これはBukkit固有のオプションです。BungeeCordでは意味がありません。
+Friendly Register Commands: false

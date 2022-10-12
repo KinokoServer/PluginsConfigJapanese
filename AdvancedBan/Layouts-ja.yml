@@ -1,0 +1,45 @@
+# デフォルトのレイアウトは Message.yml ファイルにあります!
+
+# Message-Layouts は禁止だけでなく、ミュートや警告にも使うことができます。
+# 現在利用可能な変数
+# %OPERATOR% - 処罰を行ったユーザ。
+# %REASON% - 処罰の理由。
+# %PREFIX% - Message.ymlで設定された接頭辞。
+# %DURATION% - 処罰が期限切れになるまでの残り時間 (永続的な処罰の場合は-1).
+# %DATE% - 処分が発行された日付。
+# %ID% - 罰のIDを表示します (例: 最初の罰 = 0, 2番目の罰 = 1, 3番目の罰 = 2, など).
+# %HEXID% - 罰の ID を 16 進数で表示します。
+# 警告については%COUNT%という変数も用意されており, これは現在の警告の量に # 置き換わります.
+# 警告については%COUNT%という変数もあり、これはプレイヤーが現在受けている警告の 量に置き換えられる。
+# 使用例: /ban レオコ @ExampleLayout
+Message:
+  ExampleLayout:
+    - '%PREFIX% &7ハッキングのために禁止されています！'
+    - '&c&oBAN執行者: %OPERATOR%'
+    - '&7'
+    - "&cあなたが使用しているようです a"
+    - "&cハッキングされたクライアントは無効にしてください！"
+    - "&cUnban in &8» &7%DURATION%"
+    - '&7'
+    - '&8TSまたはフォーラムでのUNBANアプリケーション'
+    - "&eTS-Ip &8» &c&n近日公開..."
+    - "&eForum &8» &c&n近日公開..."
+  ExampleLayout2:
+    - '%PREFIX% &7攻撃的な言語のために禁止されています'
+    - '&7'
+    - "&cサーバーでの宣誓に耐えられません！"
+    - "&cあなたは言葉を禁止されました '%REASON%'" # メッセージレイアウトに理由を使うこともできる
+
+# このタイムレイアウトは例えばこんな風に使うでしょう。"/temp Lebanoko #ExampleLayout Hacking in FFA" のように。
+# あるいは "/tempwarn Leoko #ExampleLayout Advertising" や "/tempwarn Leoko #ExampleLayout No capslock please" といった具合です。
+# "/tempp Leoko #ExampleLayout @Hacking "のようなMessageLayoutと組み合わせることもできます。
+Time:
+  ExampleLayout:
+    - '30m'
+    - '2h'
+    - '1d'
+    - '1w'
+    - '1mo'
+    - '2mo'
+    - '4mo'
+    - 'perma'

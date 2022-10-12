@@ -3,3 +3,8 @@
 設定をすれば、DBに保存したり、DiscordWebHookを使って利用状況を送ることも可能です。
 
 ### Spigot: https://www.spigotmc.org/resources/betterreports-discord-support.83689/
+
+# 翻訳中
+* Config.yml = 100%
+* Layouts.yml = 0%
+* Messages.yml = 0%
