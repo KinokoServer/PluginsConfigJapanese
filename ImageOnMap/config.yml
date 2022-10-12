@@ -1,0 +1,41 @@
+###  ImageOnMap 構成ファイル
+
+
+# プラグイン言語。空: システム言語。
+# 利用可能: in-US (デフォルト、フォールバック)、fr-FR、ru-RU、from-DE、zh-CN、yes-JP、is-ES。
+lang: ja-JP
+
+
+# プラグインの環境と使用状況に関する匿名の統計を収集できるようにする
+# 統計はここで公開されています: http://mcstats.org/plugin/ImageOnMap
+collect-data: true
+
+# 新しいバージョンが利用可能になったときに、管理者 (ops およびコンソール) にメッセージを表示します。
+check-for-updates: true
+
+
+# マップにレンダリングされた画像は Minecraft マップ ID を消費し、2 147 483 647 しかありません。
+# プレイヤーまたはサーバー全体が ImageOnMap で使用できるマップの最大数を制限できます。
+# 0 は無制限を意味します。
+map-global-limit: 0
+map-player-limit: 0
+
+
+# 画像の最大サイズ (ピクセル単位)。 0 は無制限です。
+limit-map-size-x: 0
+limit-map-size-y: 0
+
+
+# マップをレンダリングするときに画像全体を保存する必要がありますか?
+save-full-image: false
+
+
+# 画像のダウンロードに使用できるドメインを制限したい場合は、以下にリストしてください。
+# そうでない場合は、リストを空のままにします。
+# 例：
+#
+# イメージ-ホスト名-ホワイトリスト:
+# -imgur.com
+# -i.imgur.com
+# -cdn.discordapp.com
+images-hostnames-whitelist:
